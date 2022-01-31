@@ -1,6 +1,10 @@
 import unittest
-import shogi.Ayane as ayane
+import Ayane as ayane
 import time
+
+from settings import get_settings
+
+settings = get_settings()
 
 
 class TestAyane(unittest.TestCase):
@@ -27,7 +31,7 @@ class TestAyane(unittest.TestCase):
 
         # エンジンに接続
         # 通常の思考エンジンであるものとする。
-        usi.connect("exe/YaneuraOu.exe")
+        usi.connect(settings.engine_path)
 
         # 開始局面から76歩の局面
         # ※　"position"コマンド、"go"コマンドなどについては、USIプロトコルの説明を参考にしてください。
@@ -66,7 +70,7 @@ class TestAyane(unittest.TestCase):
             "NetworkDelay": "0",
             "NetworkDelay2": "0"
         })
-        usi.connect("exe/YaneuraOu.exe")
+        usi.connect(settings.engine_path)
 
         # usi.send_position("startpos moves 7g7f")
         # →　局面を指定しなければ初期局面のはず。
@@ -104,7 +108,7 @@ class TestAyane(unittest.TestCase):
             "NetworkDelay": "0",
             "NetworkDelay2": "0"
         })
-        usi.connect("exe/YaneuraOu.exe")
+        usi.connect(settings.engine_path)
 
         for sfen in sfens:
             usi.usi_position(sfen)
@@ -141,7 +145,7 @@ class TestAyane(unittest.TestCase):
                 "MaxMovesToDraw": "256",
                 "MinimumThinkingTime": "0"
             })
-            usi.connect("exe/YaneuraOu.exe")
+            usi.connect(settings.engine_path)
             usis.append(usi)
 
         # 棋譜
@@ -199,7 +203,7 @@ class TestAyane(unittest.TestCase):
                 "MinimumThinkingTime": "0"
             })
             # engine.debug_print = True
-            engine.connect("exe/YaneuraOu.exe")
+            engine.connect(settings.engine_path)
 
         # 持ち時間設定。
         server.set_time_setting("byoyomi 100")                 # 1手0.1秒
@@ -238,8 +242,8 @@ class TestAyane(unittest.TestCase):
         }
 
         # 1P,2P側のエンジンそれぞれを設定して初期化する。
-        server.init_engine(0, "exe/YaneuraOu.exe", options)
-        server.init_engine(1, "exe/YaneuraOu.exe", options)
+        server.init_engine(0, settings.engine_path, options)
+        server.init_engine(1, settings.engine_path, options)
 
         # 持ち時間設定。
         # server.set_time_setting("byoyomi 100")                 # 1手0.1秒

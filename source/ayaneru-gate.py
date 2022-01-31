@@ -72,7 +72,7 @@ import os
 import time
 import argparse
 import random
-import shogi.Ayane as ayane
+import Ayane as ayane
 
 
 # エンジンに関する情報構造体

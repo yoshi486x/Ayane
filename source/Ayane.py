@@ -11,6 +11,9 @@ from enum import IntEnum
 from datetime import datetime
 from typing import Optional, Union, cast
 from typing import List, Tuple, Dict
+from settings import get_settings
+
+settings = get_settings()
 
 # unit_test1.pyのほうのコードを見ると最低限の使い方は理解できるはずです。(それがサンプルを兼ねているので)
 
@@ -1610,7 +1613,7 @@ if __name__ == "__main__":
     # 最低限のテスト用コード
     usi = UsiEngine()
     usi.debug_print = True
-    usi.connect("exe/YaneuraOu.exe")
+    usi.connect(settings.engine_path)
     print(usi.engine_path)
     usi.usi_position("startpos moves 7g7f")
     print("moves = " + usi.get_moves())

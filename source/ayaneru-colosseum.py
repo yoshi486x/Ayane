@@ -54,7 +54,11 @@
 import os
 import time
 import argparse
-import shogi.Ayane as ayane
+import Ayane as ayane
+
+from settings import get_settings
+
+settings = get_settings()
 
 
 def AyaneruColosseum():
@@ -75,10 +79,10 @@ def AyaneruColosseum():
 
     # engine path
     parser.add_argument(
-        "--engine1", type=str, default="exe/YaneuraOu.exe", help="engine1 path"
+        "--engine1", type=str, default=settings.engine_path, help="engine1 path"
     )
     parser.add_argument(
-        "--engine2", type=str, default="exe/YaneuraOu.exe", help="engine2 path"
+        "--engine2", type=str, default=settings.engine_path, help="engine2 path"
     )
 
     # Hashサイズ。デフォルト64MB
