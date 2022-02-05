@@ -68,11 +68,13 @@
 # --start_gameply
 # 定跡ファイルの開始手数。0を指定すると末尾の局面から開始。1を指定すると初期局面。
 
-import os
-import time
 import argparse
+import os
 import random
-import Ayane as ayane
+import time
+
+from src.engine.log import Log
+from src.engine.server_multi import MultiAyaneruServer
 
 
 # エンジンに関する情報構造体
@@ -261,7 +263,7 @@ def AyaneruGate():
     # directory
 
     home = args.home
-    log = ayane.Log(os.path.join(home, "log"))
+    log = Log(os.path.join(home, "log"))
     log.print("iteration start", output_datetime=True)
 
     # エンジンの列挙
@@ -318,7 +320,7 @@ def AyaneruGate():
         log.print("iteration : {0}".format(it), output_datetime=True)
 
         # マルチあやねるサーバーの起動
-        server = ayane.MultiAyaneruServer()
+        server = MultiAyaneruServer()
 
         # エンジンとのやりとりを標準出力に出力する
         # server.debug_print = True

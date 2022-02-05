@@ -51,12 +51,12 @@
 # --start_gameply
 # 定跡ファイルの開始手数。0を指定すると末尾の局面から開始。1を指定すると初期局面。
 
+import argparse
 import os
 import time
-import argparse
-import Ayane as ayane
 
-from settings import get_settings
+from src.engine.server_multi import MultiAyaneruServer
+from src.settings import get_settings
 
 settings = get_settings()
 
@@ -149,7 +149,7 @@ def AyaneruColosseum():
     eval2 = os.path.join(home, args.eval2)
 
     # マルチあやねるサーバーをそのまま用いる
-    server = ayane.MultiAyaneruServer()
+    server = MultiAyaneruServer()
 
     # 1対局に要するスレッド数
     # (先後、同時に思考しないので大きいほう)

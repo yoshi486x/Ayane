@@ -1,9 +1,13 @@
-import unittest
-import Ayane as ayane
 import time
-import models
+import unittest
 
-from settings import get_settings
+from src.engine.engine import UsiEngine
+from src.engine.enums import Turn, UsiEngineState
+from src.engine.eval import UsiEvalValue
+from src.engine.server import AyaneruServer
+from src.engine.server_multi import MultiAyaneruServer
+from src.models import EngineOptions
+from src.settings import get_settings
 
 settings = get_settings()
 
@@ -16,14 +20,14 @@ class TestAyane(unittest.TestCase):
         print("test_ayane1 : ")
 
         # エンジンとやりとりするクラス
-        usi = ayane.UsiEngine()
+        usi = UsiEngine()
 
         # デバッグ用にエンジンとのやりとり内容を標準出力に出力する。
         # usi.debug_print = True
 
         # エンジンオプション自体は、基本的には"engine_options.txt"で設定する。(やねうら王のdocs/を読むべし)
         # 特定のエンジンオプションをさらに上書きで設定できる
-        engine_options = models.EngineOptions(hash=128, threads=4, network_delay=0, network_delay2=0)
+        engine_options = EngineOptions(hash=128, threads=4, network_delay=0, network_delay2=0)
         usi.set_engine_options(engine_options.suisho())
 
         # エンジンに接続
@@ -41,7 +45,7 @@ class TestAyane(unittest.TestCase):
 
         # 現在の局面の手番を得る
         turn = usi.get_side_to_move()
-        self.assertEqual(turn , ayane.Turn.WHITE)
+        self.assertEqual(turn , Turn.WHITE)
 
         # multipv 4で探索させてみる
         # 2秒思考して待機させる。
@@ -53,15 +57,15 @@ class TestAyane(unittest.TestCase):
 
         # エンジンを切断
         usi.disconnect()
-        self.assertEqual(usi.engine_state, ayane.UsiEngineState.Disconnected)
+        self.assertEqual(usi.engine_state, UsiEngineState.Disconnected)
 
     # 非同期で思考させるテスト
     def test_ayane2(self):
         print("test_ayane2 : ")
 
-        usi = ayane.UsiEngine()
+        usi = UsiEngine()
         # usi.debug_print = True
-        engine_options = models.EngineOptions(hash=128, threads=4, network_delay=0, network_delay2=0)
+        engine_options = EngineOptions(hash=128, threads=4, network_delay=0, network_delay2=0)
         usi.set_engine_options(engine_options.suisho())
         usi.connect(settings.engine_path)
 
@@ -81,7 +85,7 @@ class TestAyane(unittest.TestCase):
         print("=== UsiThinkResult ===\n" + usi.think_result.to_string())
 
         usi.disconnect()
-        self.assertEqual(usi.engine_state, ayane.UsiEngineState.Disconnected)
+        self.assertEqual(usi.engine_state, UsiEngineState.Disconnected)
 
     # ある局面に対して、余詰め(bestmove以外のmateの指し手)があるかどうかを調べるテスト
     def test_ayane3(self):
@@ -93,9 +97,9 @@ class TestAyane(unittest.TestCase):
             "sfen 8k/6+Pg1/4+Bs2N/9/7+b1/9/PP1+p5/LS7/KN7 b GN2r2g2sn3l14p",
         ]
 
-        usi = ayane.UsiEngine()
+        usi = UsiEngine()
         # usi.debug_print = True
-        engine_options = models.EngineOptions(hash=128, threads=4, network_delay=0, network_delay2=0, minimum_thinking_time=0)
+        engine_options = EngineOptions(hash=128, threads=4, network_delay=0, network_delay2=0, minimum_thinking_time=0)
         usi.set_engine_options(engine_options.suisho())
         usi.connect(settings.engine_path)
 
@@ -112,7 +116,7 @@ class TestAyane(unittest.TestCase):
             else:
                 print(f"sfen = {sfen} : 1つ目の指し手の評価値 {usi.think_result.pvs[0].eval.to_string()},"
                       f" 2つ目の指し手の評価値 {usi.think_result.pvs[1].eval.to_string()} ,"
-                      f" 余詰めあり？ {ayane.UsiEvalValue.is_mate_score(usi.think_result.pvs[1].eval)}")
+                      f" 余詰めあり？ {UsiEvalValue.is_mate_score(usi.think_result.pvs[1].eval)}")
 
         usi.disconnect()
 
@@ -123,10 +127,10 @@ class TestAyane(unittest.TestCase):
         # エンジン二つ
         usis = []
 
-        engine_options = models.EngineOptions(hash=128, threads=1, network_delay=0, network_delay2=0, max_moves_to_draw=256, minimum_thinking_time=0)
+        engine_options = EngineOptions(hash=128, threads=1, network_delay=0, network_delay2=0, max_moves_to_draw=256, minimum_thinking_time=0)
 
         for _ in range(2):
-            usi = ayane.UsiEngine()
+            usi = UsiEngine()
         #    usi.debug_print = True
             usi.set_engine_options(engine_options.suisho())
             usi.connect(settings.engine_path)
@@ -176,8 +180,8 @@ class TestAyane(unittest.TestCase):
     def test_ayane5(self):
         print("test_ayane5 : ")
 
-        server = ayane.AyaneruServer()
-        engine_options = models.EngineOptions(hash=128, threads=1, network_delay=0, network_delay2=0, max_moves_to_draw=320, minimum_thinking_time=0)
+        server = AyaneruServer()
+        engine_options = EngineOptions(hash=128, threads=1, network_delay=0, network_delay2=0, max_moves_to_draw=320, minimum_thinking_time=0)
         for engine in server.engines:
             engine.set_engine_options(engine_options.suisho())
             # engine.debug_print = True
@@ -204,13 +208,13 @@ class TestAyane(unittest.TestCase):
     def test_ayane6(self):
         print("test_ayane6 : ")
 
-        server = ayane.MultiAyaneruServer()
+        server = MultiAyaneruServer()
 
         # 並列4対局
 
         # server.debug_print = True
         server.init_server(4)
-        engine_options = models.EngineOptions(hash=128, threads=1, network_delay=0, network_delay2=0, max_moves_to_draw=320, minimum_thinking_time=0)
+        engine_options = EngineOptions(hash=128, threads=1, network_delay=0, network_delay2=0, max_moves_to_draw=320, minimum_thinking_time=0)
 
 
         # 1P,2P側のエンジンそれぞれを設定して初期化する。
