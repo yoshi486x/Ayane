@@ -1,17 +1,5 @@
-import threading
-import subprocess
-import time
-import os
-import math
-import random
-import io
-from queue import Queue
-from enum import Enum
-from enum import IntEnum
-from datetime import datetime
-from typing import Optional, Union, cast
-from typing import List, Tuple, Dict
-from settings import get_settings
+from enum import Enum, IntEnum
+
 
 # 手番を表現するEnum
 class Turn(IntEnum):
