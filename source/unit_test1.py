@@ -1,6 +1,7 @@
 import unittest
 import Ayane as ayane
 import time
+import models
 
 from settings import get_settings
 
@@ -22,12 +23,8 @@ class TestAyane(unittest.TestCase):
 
         # エンジンオプション自体は、基本的には"engine_options.txt"で設定する。(やねうら王のdocs/を読むべし)
         # 特定のエンジンオプションをさらに上書きで設定できる
-        usi.set_engine_options({
-            "Hash": "128",
-            "Threads": "4",
-            "NetworkDelay": "0",
-            "NetworkDelay2": "0"
-        })
+        engine_options = models.EngineOptions(hash=128, threads=4, network_delay=0, network_delay2=0)
+        usi.set_engine_options(engine_options.suisho())
 
         # エンジンに接続
         # 通常の思考エンジンであるものとする。
@@ -64,12 +61,8 @@ class TestAyane(unittest.TestCase):
 
         usi = ayane.UsiEngine()
         # usi.debug_print = True
-        usi.set_engine_options({
-            "Hash": "128",
-            "Threads": "4",
-            "NetworkDelay": "0",
-            "NetworkDelay2": "0"
-        })
+        engine_options = models.EngineOptions(hash=128, threads=4, network_delay=0, network_delay2=0)
+        usi.set_engine_options(engine_options.suisho())
         usi.connect(settings.engine_path)
 
         # usi.send_position("startpos moves 7g7f")
@@ -102,12 +95,8 @@ class TestAyane(unittest.TestCase):
 
         usi = ayane.UsiEngine()
         # usi.debug_print = True
-        usi.set_engine_options({
-            "Hash": "128",
-            "Threads": "4",
-            "NetworkDelay": "0",
-            "NetworkDelay2": "0"
-        })
+        engine_options = models.EngineOptions(hash=128, threads=4, network_delay=0, network_delay2=0, minimum_thinking_time=0)
+        usi.set_engine_options(engine_options.suisho())
         usi.connect(settings.engine_path)
 
         for sfen in sfens:
@@ -134,17 +123,12 @@ class TestAyane(unittest.TestCase):
         # エンジン二つ
         usis = []
 
+        engine_options = models.EngineOptions(hash=128, threads=1, network_delay=0, network_delay2=0, max_moves_to_draw=256, minimum_thinking_time=0)
+
         for _ in range(2):
             usi = ayane.UsiEngine()
         #    usi.debug_print = True
-            usi.set_engine_options({
-                "Hash": "128",
-                "Threads": "1",
-                "NetworkDelay": "0",
-                "NetworkDelay2": "0",
-                "MaxMovesToDraw": "256",
-                "MinimumThinkingTime": "0"
-            })
+            usi.set_engine_options(engine_options.suisho())
             usi.connect(settings.engine_path)
             usis.append(usi)
 
@@ -193,15 +177,9 @@ class TestAyane(unittest.TestCase):
         print("test_ayane5 : ")
 
         server = ayane.AyaneruServer()
+        engine_options = models.EngineOptions(hash=128, threads=1, network_delay=0, network_delay2=0, max_moves_to_draw=320, minimum_thinking_time=0)
         for engine in server.engines:
-            engine.set_engine_options({
-                "Hash": "128",
-                "Threads": "1",
-                "NetworkDelay": "0",
-                "NetworkDelay2": "0",
-                "MaxMovesToDraw": "320",
-                "MinimumThinkingTime": "0"
-            })
+            engine.set_engine_options(engine_options.suisho())
             # engine.debug_print = True
             engine.connect(settings.engine_path)
 
@@ -232,18 +210,12 @@ class TestAyane(unittest.TestCase):
 
         # server.debug_print = True
         server.init_server(4)
-        options = {
-            "Hash": "128",
-            "Threads": "1",
-            "NetworkDelay": "0",
-            "NetworkDelay2": "0",
-            "MaxMovesToDraw": "320",
-            "MinimumThinkingTime": "0"
-        }
+        engine_options = models.EngineOptions(hash=128, threads=1, network_delay=0, network_delay2=0, max_moves_to_draw=320, minimum_thinking_time=0)
+
 
         # 1P,2P側のエンジンそれぞれを設定して初期化する。
-        server.init_engine(0, settings.engine_path, options)
-        server.init_engine(1, settings.engine_path, options)
+        server.init_engine(0, settings.engine_path, engine_options.suisho())
+        server.init_engine(1, settings.engine_path, engine_options.suisho())
 
         # 持ち時間設定。
         # server.set_time_setting("byoyomi 100")                 # 1手0.1秒
