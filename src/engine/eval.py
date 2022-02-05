@@ -1,4 +1,4 @@
-from enums import UsiEvalSpecialValue
+from src.engine.enums import UsiEvalSpecialValue
 
 
 # 評価値(Eval)を表現する型

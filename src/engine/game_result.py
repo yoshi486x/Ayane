@@ -1,6 +1,6 @@
 from enum import IntEnum
 
-from enums import Turn
+from src.engine.enums import Turn
 
 
 # ゲームの終局状態を示す

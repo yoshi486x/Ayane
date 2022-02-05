@@ -1,10 +1,10 @@
 import time
 import threading
 
-from engine import UsiEngine
-from enums import Turn
-from game_result import GameResult
-from scanner import Scanner
+from src.engine.engine import UsiEngine
+from src.engine.enums import Turn
+from src.engine.game_result import GameResult
+from src.engine.scanner import Scanner
 
 
 # 1対1での対局を管理してくれる補助クラス

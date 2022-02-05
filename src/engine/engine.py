@@ -4,10 +4,10 @@ import threading
 from queue import Queue
 from typing import Dict, Optional, Union, cast
 
-from enums import Turn, UsiEngineState, UsiEvalSpecialValue, UsiBound
-from eval import UsiEvalValue, UsiEvalSpecialValue
-from scanner import Scanner
-from service import UsiThinkResult, UsiThinkPV
+from src.engine.enums import Turn, UsiEngineState, UsiEvalSpecialValue, UsiBound
+from src.engine.eval import UsiEvalValue, UsiEvalSpecialValue
+from src.engine.scanner import Scanner
+from src.engine.service import UsiThinkResult, UsiThinkPV
 
 
 # USIプロトコルを用いて思考エンジンとやりとりするためのwrapperクラス

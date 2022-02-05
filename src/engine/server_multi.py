@@ -2,10 +2,10 @@ import random
 import threading
 import time
 
-from game_result import GameResult
-from kifu import GameKifu
-from server import AyaneruServer
-from rating import EloRating
+from src.engine.game_result import GameResult
+from src.engine.kifu import GameKifu
+from src.engine.server import AyaneruServer
+from src.engine.rating import EloRating
 
 
 # 並列自己対局のためのクラス
