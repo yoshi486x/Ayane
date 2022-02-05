@@ -12,12 +12,12 @@ from src.engine.service import UsiThinkResult, UsiThinkPV
 
 # USIプロトコルを用いて思考エンジンとやりとりするためのwrapperクラス
 class UsiEngine:
-    def __init__(self):
+    def __init__(self, debug_print=False):
 
         # --- public members ---
 
         # 通信内容をprintで表示する(デバッグ用)
-        self.debug_print = False
+        self.debug_print = debug_print
 
         # エンジン側から"Error"が含まれている文字列が返ってきたら、それをprintで表示する。
         # これはTrueにしておくのがお勧め。
