@@ -1,0 +1,2 @@
+python-dotenv==0.19.2
+python-shogi==1.0.15

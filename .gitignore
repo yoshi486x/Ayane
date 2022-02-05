@@ -12,3 +12,5 @@ __pycache__/
 AyaneruGate/
 *.sfen
 unit_test3.py
+venv/
+.env
