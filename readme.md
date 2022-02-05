@@ -55,7 +55,7 @@ if __name__ == "__main__":
 ね、簡単でしょう？
 
 - Ayaneを使えば、エンジン同士の対局をさせるのも、わずかなコードで実現できます。
-  - [unit-test1.py](source/unit_test1.py)
+  - [unit-test1.py](tests/unit_test1.py)
 
 - sfen文字列の取扱いなどは、下記のライブラリを使うと便利だと思います。
   - [python-shogi](https://github.com/gunyarakun/python-shogi)
@@ -116,14 +116,14 @@ if __name__ == "__main__":
 マルチあやねるサーバーを用いた並列対局を実現するスクリプト。
 勝率、レーティング差、95%信頼下限～信頼上限のレーティング差などを自動計算して表示。
 
-- [ayaneru-colosseum.py](source/ayaneru-colosseum.py)
+- [ayaneru-colosseum.py](src/ayaneru-colosseum.py)
 
 
 ## あやねるゲート
 
 あやねるサーバーを用いた複数ソフト間の対局を自動化するスクリプト。
 
-- [ayaneru-gate.py](source/ayaneru-gate.py)
+- [ayaneru-gate.py](src/ayaneru-gate.py)
 
 # License
 
