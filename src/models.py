@@ -1,4 +1,7 @@
 """
+Docs:
+https://github.com/yaneurao/YaneuraOu/blob/master/docs/USI%E6%8B%A1%E5%BC%B5%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89.txt
+
 Default setup reference:
 https://yaneuraou.yaneu.com/2018/11/03/%E3%82%84%E3%81%AD%E3%81%86%E3%82%89%E7%8E%8B%E3%81%AE%E6%A4%9C%E8%A8%8E%E7%94%A8%E8%A8%AD%E5%AE%9A%E3%81%AE%E3%81%8A%E5%8B%A7%E3%82%81%E3%82%92%E6%95%99%E3%81%88%E3%81%A6%E3%81%8F%E3%81%A0%E3%81%95/ 
 """
