@@ -32,7 +32,7 @@ class AnalyzeUsecase:
         # for move in kif_moves:
         for i in range(len(kif_moves)):
             move = kif_moves[i]
-            AnalyzeUsecase.print_kif_move(board, move)
+            print(AnalyzeUsecase.generate_japanese_kif_move(board, move))
             print(board.kif_str())
 
             usi_position += f" {move}"
@@ -45,9 +45,10 @@ class AnalyzeUsecase:
 
             # 読み筋を取り込む
             # for pv_move in pv_moves:
+            pv_moves_jp = []
             for j, pv_move in enumerate(pv_moves):
-                print(f'({i}, {j}): ', end=' ')
-                AnalyzeUsecase.print_kif_move(board, pv_move)
+                pv_moves_jp.append(AnalyzeUsecase.generate_japanese_kif_move(board, pv_move))
+            print(''.join(pv_moves_jp))
 
             # 読み筋で取り込んだ手をすべて待ったする
             for _ in range(len(pv_moves)):
@@ -91,24 +92,35 @@ class AnalyzeUsecase:
         # Copy Board or use the board and pop
 
     @staticmethod
-    def print_kif_move(board, pv_move):
+    def generate_japanese_kif_move(board, pv_move):
+        turn_icon = '▲'
+        move_code = ''
+        piece = ''
+        special_action = ''
+        from_code = ''
+
         # parse pv
         shogi_move = shogi.Move.from_usi(pv_move)
         from_square, to_square, promotion, drop_piece_type = shogi_move.from_square, shogi_move.to_square, shogi_move.promotion, shogi_move.drop_piece_type
 
+        #先後
+        if board.turn == shogi.WHITE:
+            turn_icon = '△'
         # 指し手
-        print(f'{shogi.NUMBER_JAPANESE_NUMBER_SYMBOLS[shogi.file_index(to_square)+1]}{shogi.NUMBER_JAPANESE_KANJI_SYMBOLS[shogi.rank_index(to_square)+1]}', end='')
+        move_code = f'{shogi.NUMBER_JAPANESE_NUMBER_SYMBOLS[shogi.file_index(to_square)+1]}{shogi.NUMBER_JAPANESE_KANJI_SYMBOLS[shogi.rank_index(to_square)+1]}'
         if from_square is None and to_square is not None:
             # 打つ
-            print(shogi.PIECE_JAPANESE_SYMBOLS[drop_piece_type]+'打')
+            piece = shogi.PIECE_JAPANESE_SYMBOLS[drop_piece_type]
+            special_action = '打'
         else:
             from_piece = board.piece_at(from_square)
-            print(shogi.PIECE_JAPANESE_SYMBOLS[from_piece.piece_type], end='')
+            piece = shogi.PIECE_JAPANESE_SYMBOLS[from_piece.piece_type]
             if promotion:
                 # 成る
-                print('成', end='')
-            # 
-            print(f'({shogi.file_index(to_square)+1}{shogi.rank_index(to_square)+1})')
+                piece = shogi.PIECE_JAPANESE_SYMBOLS[from_piece.piece_type]
+                special_action = '成'
+
+            from_code = f'({shogi.file_index(to_square)+1}{shogi.rank_index(to_square)+1})'
             
         board.push(shogi_move)
-        return
+        return f"{turn_icon}{move_code}{piece}{special_action}{from_code}"
