@@ -52,22 +52,27 @@ class AnalyzeUsecase:
             # 読み筋を取り込む
             # for pv_move in pv_moves:
             for j, pv_move in enumerate(pv_moves):
+                print(f'({i}, {j}): ', end=' ')
                 # parse pv
                 shogi_move = shogi.Move.from_usi(pv_move)
                 from_square, to_square, promotion, drop_piece_type = shogi_move.from_square, shogi_move.to_square, shogi_move.promotion, shogi_move.drop_piece_type
 
                 # from_square_name = shogi.SQUARE_NAMES[shogi_move.from_square]
                 # to_square_name = shogi.SQUARE_NAMES[shogi_move.to_square]
+                if to_square is None:
+                    print(' no to_square')
+                    exit(1)
+                print(f'{shogi.NUMBER_JAPANESE_NUMBER_SYMBOLS[shogi.file_index(to_square)+1]}{shogi.NUMBER_JAPANESE_KANJI_SYMBOLS[shogi.rank_index(to_square)+1]}', end='')
                 if from_square is None and to_square is not None:
                     # 打つ
-                    print(f'{i}: drop_piece_type:', drop_piece_type)
+                    print(shogi.PIECE_JAPANESE_SYMBOLS[drop_piece_type], f'(drop_piece_type)', drop_piece_type)
                     # print(f'{i}: jp_piece_type:', shogi.PIECE_JAPANESE_SYMBOLS[drop_piece_type])
                 else:
                     from_piece = board.piece_at(from_square)
                     if from_piece is None:
-                        print(f'{i}, {j}: no from_piece, {pv_move}')
+                        print(f' no from_piece, {pv_move}')
                         continue
-                    print(f'{i}, {j}: from_piece:', from_piece.piece_type)
+                    print(shogi.PIECE_JAPANESE_SYMBOLS[from_piece.piece_type], f'(from_piece)', from_piece.piece_type)
                     # print('from_piece:', shogi.PIECE_JAPANESE_SYMBOLS[from_piece.piece_type])
                     if promotion:
                         # 成る
@@ -78,7 +83,7 @@ class AnalyzeUsecase:
                 board.push(shogi_move)
             
             # 読み筋で取り込んだ手をすべて待ったする
-            for _ in range(len(pv_moves)):
+            for _ in range(len(pv_moves) - 1):
                 board.pop()
             
             
@@ -118,3 +123,7 @@ class AnalyzeUsecase:
         pv_moves = pv.split(' ')
         print(pv_moves)
         # Copy Board or use the board and pop
+
+    @staticmethod
+    def print_kif_move():
+        
