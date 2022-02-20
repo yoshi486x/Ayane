@@ -1,5 +1,6 @@
 import shogi
 import shogi.KIF
+import xml
 
 from src.models import EngineOptions
 from src.engine.engine import UsiEngine
@@ -32,7 +33,7 @@ class AnalyzeUsecase:
         # for move in kif_moves:
         for i in range(len(kif_moves)):
             move = kif_moves[i]
-            print(AnalyzeUsecase.generate_japanese_kif_move(board, move))
+            print(f'{i: > 4}', AnalyzeUsecase.generate_japanese_kif_move(board, move))
             print(board.kif_str())
 
             usi_position += f" {move}"
