@@ -1,6 +1,6 @@
 import unittest
 
-from app.usecase.analyze_usecase import AnalyzeUsecase
+from app.analyze_usecase import AnalyzeUsecase
 from src.settings import get_settings
 
 
