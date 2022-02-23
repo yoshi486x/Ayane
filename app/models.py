@@ -1,3 +1,4 @@
+import shogi
 from typing import List
 from app.analyze_usecase import AnalyzeUsecase
 
