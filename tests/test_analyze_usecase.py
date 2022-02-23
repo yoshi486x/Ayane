@@ -14,8 +14,13 @@ class TestAnalyzeUsecase(unittest.TestCase):
             exit(1)
 
     def test_import_kif(self):
-        kif = AnalyzeUsecase.import_kif('C4ke/2022-02-05/C4ke-oku002211-20220205_165555.kif')
+        kif = AnalyzeUsecase.import_kif('C4ke/2022-02-05/C4ke-oku002211-20220205_165555.kif', 'kif')
         print('kif:', kif)
+        self.assertIsNotNone(kif)
+
+        csa = AnalyzeUsecase.import_kif('C4ke/2022-02-05/C4ke-oku002211-20220205_165555.csa', 'csa')
+        print('csa:', csa)
+        self.assertIsNotNone(csa)
 
     def test_define_engine(sef):
         usi = AnalyzeUsecase.define_engine('lnsgkgsnl/1r5b1/ppppppppp/9/9/9/PPPPPPPPP/1B5R1/LNSGKGSNL b - 1')

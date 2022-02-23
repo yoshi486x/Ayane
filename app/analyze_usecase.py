@@ -1,5 +1,5 @@
 import shogi
-import shogi.KIF
+import shogi.KIF, shogi.CSA
 import xml
 
 from src.models import EngineOptions
@@ -62,17 +62,19 @@ class AnalyzeUsecase:
 
 
     @staticmethod
-    def import_kif(filename):
+    def import_kif(filename, filetype='kif'):
         # import kif
         print('path: ', settings.kifu_path + filename)
-        kif = shogi.KIF.Parser.parse_file(settings.kifu_path + filename)[0]
+        if filetype == 'kif':
+            kif = shogi.KIF.Parser.parse_file(settings.kifu_path + filename)[0]
+        elif filetype == 'csa':
+            kif = shogi.CSA.Parser.parse_file(settings.kifu_path + filename)[0]
         if kif is None:
             print('kif is None')
             exit(1)
         print('kif:', kif)
         print('black:', kif['names'][shogi.BLACK])
         print('white:', kif['names'][shogi.WHITE])
-
         return kif
 
     @staticmethod
