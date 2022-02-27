@@ -55,7 +55,7 @@ class AnalyzeUsecase:
             for _ in range(len(pv_moves)):
                 board.pop()
 
-            if i == 50:
+            if i == 10:
                 break
 
         usi.disconnect()

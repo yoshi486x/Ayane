@@ -1,5 +1,7 @@
+from dicttoxml import dicttoxml
 import shogi
 from typing import List
+from xml.dom.minidom import parseString
 from app.analyze_usecase import AnalyzeUsecase
 
 
@@ -21,10 +23,6 @@ class Utils:
         kfk = KFK()
 
         for i, move in enumerate(kif_moves):
-            # move = kif_moves[i]
-            
-            # print('usi_position:', usi_position)
-            # usi_position += f" {move}"
             usi.usi_position(usi_position)
             # usi.send_command('multipv 1')
             usi.usi_go_and_wait_bestmove("btime 0 wtime 0 byoyomi 1000")
@@ -55,16 +53,23 @@ class Utils:
             else:
                 usi_position += f" {move}"
 
-            if i == 50:
+            if i == 10:
                 break
         usi.disconnect()
+        kfk.generate_xml_str()
 
 
 class KFK:
-    game_analysis: 'GameAnalysis'
-
     def __init__(self) -> None:
         self.game_analysis: 'GameAnalysis' = GameAnalysis()
+
+    def generate_xml_str(self):
+        print('__dict__:', self.game_analysis.__dict__)
+        print('vars():', vars(self.game_analysis))
+        xml = dicttoxml(self.game_analysis.__dict__, custom_root='kfk', attr_type=False)
+        print('xml:', xml)
+        dom = parseString(xml)
+        print(dom.toprettyxml(indent="  "))
 
 
 class GameAnalysis:
@@ -77,10 +82,6 @@ class GameAnalysis:
 
 
 class AnalysisInfo:
-    # move: str
-    # score: int
-    # pv: str
-
     def __init__(self, move, score, pv) -> None:
         self.move: str = move
         self.score: int = score
