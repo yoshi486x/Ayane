@@ -2,6 +2,9 @@ import shogi
 from typing import List
 from app.analyze_usecase import AnalyzeUsecase
 
+
+
+
 class Utils:
     @staticmethod
     def generate_kfk(filename):
@@ -15,35 +18,13 @@ class Utils:
 
         # 初手解析
         usi_position = f"sfen {kif_sfen}"
-        usi.usi_position(usi_position)
-        usi.send_command('multipv 1')
-        usi.usi_go_and_wait_bestmove("btime 0 wtime 0 byoyomi 1000")
-        pv = usi.think_result.pvs[0]
-        pv_score = pv.eval 
-        pv_moves = pv.pv.split(' ')
-        pv_len = len(pv_moves)
-        print('first_pv', pv.pv)
-            
-        pv_moves_jp = []
-        # for j, pv_move in enumerate(pv_moves):
-        #     pv_moves_jp.append(AnalyzeUsecase.generate_japanese_kif_move(board, pv_move))
-        
         kfk = KFK()
-        # kfk.game_analysis.analysis_info_list.append(AnalysisInfo(
-        #     f'{1: > 4}', AnalyzeUsecase.generate_japanese_kif_move(board, move),
-        #     pv.eval,
-        #     ''.join(pv_moves_jp)))
 
-        usi_position += " moves"
-        # for move in kif_moves:
-        for i in range(len(kif_moves)):
-            move = kif_moves[i]
-            print('move:', move)
-            move_str = f'{i+1: > 4}', AnalyzeUsecase.generate_japanese_kif_move(board, move)
-            print(move_str)
-            print(board.kif_str())
-
-            usi_position += f" {move}"
+        for i, move in enumerate(kif_moves):
+            # move = kif_moves[i]
+            
+            # print('usi_position:', usi_position)
+            # usi_position += f" {move}"
             usi.usi_position(usi_position)
             # usi.send_command('multipv 1')
             usi.usi_go_and_wait_bestmove("btime 0 wtime 0 byoyomi 1000")
@@ -51,23 +32,31 @@ class Utils:
             pv_score = pv.eval 
             pv_moves = pv.pv.split(' ')
             pv_len = len(pv_moves)
-
             # 読み筋を取り込む
-            # for pv_move in pv_moves:
             pv_moves_jp = []
             for j, pv_move in enumerate(pv_moves):
+                # print(f"{j}: {pv_move}", end=' ')
                 pv_moves_jp.append(AnalyzeUsecase.generate_japanese_kif_move(board, pv_move))
-            print(''.join(pv_moves_jp))
-            print('pv_score:', pv_score)
-            kfk.game_analysis.analysis_info_list.append(AnalysisInfo(move_str, pv_score, ''.join(pv_moves_jp)))
+            # print(''.join(pv_moves_jp))
+            # print('pv_score:', pv_score)
 
             # 読み筋で取り込んだ手をすべて待ったする
             for _ in range(len(pv_moves)):
                 board.pop()
 
-            if i == 10:
-                break
+            # print('move:', move)
+            move_str = f'{i+1: > 4}', AnalyzeUsecase.generate_japanese_kif_move(board, move)
+            # print(move_str)
+            # print(board.kif_str())
+            kfk.game_analysis.analysis_info_list.append(AnalysisInfo(move_str, pv_score, ''.join(pv_moves_jp)))
+            
+            if i == 0:
+                usi_position += f" moves {move}"
+            else:
+                usi_position += f" {move}"
 
+            if i == 50:
+                break
         usi.disconnect()
 
 

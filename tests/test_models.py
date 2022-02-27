@@ -9,9 +9,3 @@ settings = get_settings()
 class TestKFK(unittest.TestCase):
     def test_generate(self):
         Utils.generate_kfk('C4ke/2022-02-05/C4ke-oku002211-20220205_165555.kif')
-
-        # try:
-        #     Utils.generate_kfk('C4ke/2022-02-05/C4ke-oku002211-20220205_165555.kif')
-        # except Exception as e:
-        #     print(e)
-        # exit(1)

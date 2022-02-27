@@ -49,7 +49,7 @@ class AnalyzeUsecase:
             pv_moves_jp = []
             for j, pv_move in enumerate(pv_moves):
                 pv_moves_jp.append(AnalyzeUsecase.generate_japanese_kif_move(board, pv_move))
-            print(''.join(pv_moves_jp))
+            # print(''.join(pv_moves_jp))
 
             # 読み筋で取り込んだ手をすべて待ったする
             for _ in range(len(pv_moves)):
@@ -97,7 +97,7 @@ class AnalyzeUsecase:
     @staticmethod
     def generate_japanese_kif_move(board, pv_move):
         turn_icon = '▲'
-        move_code = ''
+        to_code = ''
         piece = ''
         special_action = ''
         from_code = ''
@@ -109,8 +109,9 @@ class AnalyzeUsecase:
         #先後
         if board.turn == shogi.WHITE:
             turn_icon = '△'
-        # 指し手
-        move_code = f'{shogi.NUMBER_JAPANESE_NUMBER_SYMBOLS[shogi.file_index(to_square)+1]}{shogi.NUMBER_JAPANESE_KANJI_SYMBOLS[shogi.rank_index(to_square)+1]}'
+        # 指し手        
+        to_square_usi = shogi.SQUARE_NAMES[to_square]
+        to_code = f'{JAPANESE_NUMBERS[NUMBERS.index(to_square_usi[0])]}{JAPANESE_KANJI_NUMBERS[ALFABET.index(to_square_usi[1])]}'
         if from_square is None and to_square is not None:
             # 打つ
             piece = shogi.PIECE_JAPANESE_SYMBOLS[drop_piece_type]
@@ -122,8 +123,14 @@ class AnalyzeUsecase:
                 # 成る
                 piece = shogi.PIECE_JAPANESE_SYMBOLS[from_piece.piece_type]
                 special_action = '成'
-
-            from_code = f'({shogi.file_index(to_square)+1}{shogi.rank_index(to_square)+1})'
+            from_square_usi = shogi.SQUARE_NAMES[from_square]
+            from_code = f'({from_square_usi[0]}{NUMBERS[ALFABET.index(from_square_usi[1])]})'
             
         board.push(shogi_move)
-        return f"{turn_icon}{move_code}{piece}{special_action}{from_code}"
+        return f"{turn_icon}{to_code}{piece}{special_action}{from_code}"
+
+
+NUMBERS = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+JAPANESE_KANJI_NUMBERS =  ['一', '二', '三', '四', '五', '六', '七', '八', '九']
+JAPANESE_NUMBERS =  ['１', '２', '３', '４', '５', '６', '７', '８', '９']
+ALFABET = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
