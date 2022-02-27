@@ -27,10 +27,7 @@ class TestKFK(unittest.TestCase):
         ]
         kfk = KFK()
         for analysis_info_dict in analysis_info_dict_list:
-            analysis_info = AnalysisInfo(analysis_info_dict)
-            print(analysis_info)
-            kfk.game_analysis.analysis_info_list.append(analysis_info)
-
-        print('__dict__:', kfk.game_analysis.__dict__)
+            # analysis_info = 
+            kfk.game_analysis.analysis_info_list.append(AnalysisInfo(**analysis_info_dict))
         
-        
+        # print(kfk.game_analysis.__dict__)

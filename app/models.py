@@ -76,12 +76,13 @@ class KFK:
 
 
 class GameAnalysis:
-    kif: str
-    score_list: list
-    engine_name: str
-    time_per_move: int
-    analysis_score_list: list = []
-    analysis_info_list: List['AnalysisInfo'] = []
+    def __init__(self):
+        self.kif: str = ''
+        self.score_list: list = []
+        self.engine_name: str = ''
+        self.time_per_move: int = 0
+        self.analysis_score_list: list = []
+        self.analysis_info_list: List['AnalysisInfo'] = []
 
 
 class AnalysisInfo:
