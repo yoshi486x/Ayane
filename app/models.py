@@ -43,11 +43,14 @@ class Utils:
                 board.pop()
 
             # print('move:', move)
-            move_str = f'{i+1: > 4}', AnalyzeUsecase.generate_japanese_kif_move(board, move)
+            move_str = f'{i+1: > 4} ' + AnalyzeUsecase.generate_japanese_kif_move(board, move)
             # print(move_str)
             # print(board.kif_str())
-            kfk.game_analysis.analysis_info_list.append(AnalysisInfo(move_str, pv_score, ''.join(pv_moves_jp)))
-            
+            analysis_info = AnalysisInfo(move_str, pv_score, ''.join(pv_moves_jp))
+            print('analysis_info:', vars(analysis_info))
+            # kfk.game_analysis.analysis_info_list.append(AnalysisInfo(move_str, pv_score, ''.join(pv_moves_jp)))
+            kfk.game_analysis.analysis_info_list.append(analysis_info)
+
             if i == 0:
                 usi_position += f" moves {move}"
             else:
